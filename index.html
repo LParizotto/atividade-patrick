@@ -1,29 +1,110 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marcador de Truco</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 320px;
+        }
+
+        .time {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #2a2a2a;
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            color: #bbb;
+        }
+
+        .placar {
+            display: block;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            margin: 2px;
+            font-weight: bold;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-add { background-color: #008cff; color: white; }
+        .btn-truco { background-color: #6200ee; color: white; }
+        .btn-sub { background-color: #cf6679; color: black; }
+
+        .btn-reset {
+            margin-top: 20px;
+            width: 100%;
+            background-color: transparent;
+            color: #888;
+            border: 1px solid #444;
+        }
+
+        .btn-reset:hover {
+            background-color: #444;
+            color: white;
+        }
+
+        hr { border: 0; border-top: 1px solid #333; margin: 20px 0; }
+    </style>
 </head>
 <body>
 
-    <div>
-        <h2>NÓS: <span id="ptsNos">0</span></h2>
-        <button onclick="mudar('ptsNos', 1)">+1</button>
-        <button onclick="mudar('ptsNos', 3)">+3</button>
-        <button onclick="mudar('ptsNos', -1)">-1</button>
+    <div class="container">
+        <h1>TRUCO</h1>
+
+        <div class="time">
+            <h2>NÓS</h2>
+            <span class="placar" id="ptsNos">0</span>
+            <button class="btn-add" onclick="mudar('ptsNos', 1)">+1</button>
+            <button class="btn-truco" onclick="mudar('ptsNos', 3)">+3</button>
+            <button class="btn-sub" onclick="mudar('ptsNos', -1)">-1</button>
+        </div>
+
+        <hr>
+
+        <div class="time">
+            <h2>ELES</h2>
+            <span class="placar" id="ptsEles">0</span>
+            <button class="btn-add" onclick="mudar('ptsEles', 1)">+1</button>
+            <button class="btn-truco" onclick="mudar('ptsEles', 3)">+3</button>
+            <button class="btn-sub" onclick="mudar('ptsEles', -1)">-1</button>
+        </div>
+
+        <button class="btn-reset" onclick="resetar()">Zerar Partida</button>
     </div>
-
-    <hr>
-
-    <div>
-        <h2>ELES: <span id="ptsEles">0</span></h2>
-        <button onclick="mudar('ptsEles', 1)">+1</button>
-        <button onclick="mudar('ptsEles', 3)">+3</button>
-        <button onclick="mudar('ptsEles', -1)">-1</button>
-    </div>
-
-    <br>
-    <button onclick="resetar()">Zerar Partida</button>
 
     <script>
         function mudar(id, valor) {
@@ -37,13 +118,17 @@
             elemento.innerText = novo;
 
             if (novo === 12) {
-                alert("Fim de jogo!");
+                setTimeout(() => { 
+                    alert("Fim de jogo! " + (id === 'ptsNos' ? "NÓS ganhamos!" : "ELES ganharam!")); 
+                }, 100);
             }
         }
 
         function resetar() {
-            document.getElementById('ptsNos').innerText = "0";
-            document.getElementById('ptsEles').innerText = "0";
+            if(confirm("Deseja realmente zerar o placar?")) {
+                document.getElementById('ptsNos').innerText = "0";
+                document.getElementById('ptsEles').innerText = "0";
+            }
         }
     </script>
 
